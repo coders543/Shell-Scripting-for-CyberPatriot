@@ -2,7 +2,7 @@
 sudo apt upgrade 
 sudo apt update 
 sudo apt install libpam-cracklib # this is to enforce a good password policy 
-sudo find / -iname "*.mp3" -exec rm {} \ 2>/dev/null;  # remove all files and media # -exec rm {} \; tells the script to remove each file found with .mp3 -iname means case sensitive {} = placeholder 
+sudo find / -iname "*.mp3" 2>/dev/null;  # fix this line make it so it removes each file 
 sudo ufw default reject incoming 
 sudo ufw default allow outgoing # these are best practices for cyberpatriot 
 sudo passwd -l root # locks the root account 
