@@ -1,5 +1,6 @@
 # linux_project
 🛡️ CyberPatriot Beginner Linux Hardening Script
+Will write more for next years comp  😁
 This Bash script is designed to automate common Linux security practices and system hardening techniques often used in CyberPatriot competitions. It focuses on improving system security by adjusting permissions, locking unnecessary access, enforcing strong password policies, and configuring basic firewall rules.
 
 🔧 Features
