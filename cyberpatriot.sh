@@ -2,8 +2,12 @@
 #!/bin/bash this is a shebang and tells us what shell is used 
 sudo apt upgrade 
 sudo apt update 
-sudo find / -iname "*.mp3" 2>/dev/null;  # fix this line make it so it removes each file  
+sudo find / -iname "*.mp3" 2>/dev/null # fix this line make it so it removes each file  
 # this next part is specific functions 
+if [ "$EUID" -ne 0 ]; then #forces us to use sudo. Root has a UID of 0. -ne is notequal to. remove the sudo for all later. 
+    echo "Please be root lol or use sudo which is better" 
+    exit 1 
+fi 
 main(){
     firewall_stuff 
     echo "executing everything in this order: 
@@ -16,6 +20,11 @@ firewall_stuff() {
     echo "Firewall stuff is done" 
 }
 kernel_updates() { 
+echo " Now running an update on the kernel" 
+sysctl -w net.ipv4.ip_forward=0 # sysctl - w writes to the kernel 
+sysctl -w net.ipv4.tcp_syncookies=1
+sysctl -w net.ipv4.conf.default.rp_filter=1 
+sysctl --sytem # this saves the changes made to the kernel. 
 
 }
 file_permissions(){ #make this less bruteforce later main sensitive files to check 
@@ -39,3 +48,21 @@ root_login(){
  # ^ represents beginning of the line .* represents everyting after PermitRootLofin  
 
 }
+scanning_stuff() { # fix this block lots of syntax errors. 
+    if command -v chkrootkit 2>/dev/null; then 
+        echo "starting scans for vulns" 
+        chkrootkit -q 
+    else 
+        echo "this doesn't exist sadface emoji" 
+        echo "would you like me to still continue?"
+        read response 
+        if [ "$response"="yes" ]; then 
+            echo "ok"
+            scanning_stuff # fix this recursive part 
+        else 
+            echo "shutting down"
+            exit 1 
+        fi 
+    fi
+}
+main # this is to run everything. 
